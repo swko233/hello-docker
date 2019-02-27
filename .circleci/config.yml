@@ -1,0 +1,27 @@
+# 設定テンプレート
+
+version: 2
+jobs:
+  build:
+    machine: true
+    steps:
+    - checkout
+    - restore_cache:
+        key: docker-project-{{ .Branch }} # アプリ名にあわせて適宜変更
+    - run:
+        name: Build
+        command: |
+          docker volume create --name=docker-app-sync && \
+          docker-compose up -d --build && \
+          docker cp ./ project_app_1:/var/www/app && \
+          docker-compose run app bundle update
+    - run:
+        name: Run Rspec
+        command: |
+          docker-compose run app bundle install
+          docker-compose run app bundle exec rspec
+    - save_cache:
+        key: docker-project-{{ .Branch }} # アプリ名にあわせて適宜変更
+        paths:
+        - node_modules
+        - .gem
