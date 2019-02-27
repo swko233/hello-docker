@@ -18,7 +18,6 @@ jobs:
     - run:
         name: Run Rspec
         command: |
-          docker-compose run app bundle install
           docker-compose run app bundle exec rspec
     - save_cache:
         key: docker-project-{{ .Branch }} # アプリ名にあわせて適宜変更

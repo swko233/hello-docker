@@ -8,3 +8,7 @@ RUN apt-get update \
  && apt-get install -y nodejs vim
 
 WORKDIR /var/www/app
+
+# for circleCI
+ADD Gemfile /var/www/app/Gemfile
+RUN bundle update
