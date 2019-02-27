@@ -9,6 +9,10 @@
 
 version: "2"
 
+volumes:
+  docker-app-sync:
+    external: true
+
 services:
   app:
     build:
@@ -16,7 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/var/www/app
+      - docker-app-sync:/var/www/app
     ports:
       - "3000:3000"
     tty: true
