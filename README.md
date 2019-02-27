@@ -1,24 +1,46 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Dockerの起動(OSXにて)
+```
+# docker-sync用のインストール
+$ gem install docker-sync
+$ brew install fswatch
+$ brew install unison
 
-Things you may want to cover:
+# docker-sync起動
+$ docker volume create --name=docker-app-sync
+$ docker-sync start
 
-* Ruby version
+# コンテナのビルド
+$ docker-compose up -d --build
 
-* System dependencies
+# appコンテナに入る
+$ docker-compose exec app /bin/bash
+```
 
-* Configuration
+### rails用初期セットアップ(rubyコンテナにて)
+```
+# bundle
+# bin/rails db:migrate
+```
 
-* Database creation
+### 2回目以降の起動
+```
+# docker-sync起動
+$ docker-sync start
+# docker起動
+$ docker-compose up -d
+```
 
-* Database initialization
+### コンテナに入る際
+```
+$ docker-compose exec app /bin/bash
+```
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+#rspecの導入
+```
+Gemfileに記入後
+$ bundle install
+$ bundle exec rails generate rspec:install
+$ bundle binstubs rspec-core
+```
