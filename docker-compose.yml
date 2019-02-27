@@ -1,0 +1,45 @@
+# rubyコンテナをつくる
+# rails new
+# rails sでブラウザ上でエラーを確かめる
+
+# dbコンテナをつくる
+# 永続化設定(volumes)
+
+# rails sで正常に動作していることを確かめる
+
+version: "2"
+
+services:
+  app:
+    build:
+      # Dockerfileの場所
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/app
+    ports:
+      - "3000:3000"
+    tty: true
+    links:
+      - db
+      - test_db
+
+  db:
+    image: postgres:10
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    ports:
+      - "3306:3306"
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=GdS)FP6*B7zJ
+
+  test_db:
+    image: postgres:10
+    ports:
+      - "3307:3307"
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=GdS)FP6*B7zJ
